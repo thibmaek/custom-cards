@@ -1,55 +1,52 @@
-const css = `
-  .record-title {
-    background: white;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-  }
-`
+import { LitElement, html, css } from "https://unpkg.com/lit-element@2.0.1/lit-element.js?module";
 
-class DiscogsCard extends HTMLElement {
-  constructor() {
-    super();
-    // this.attachShadow({ mode: 'open' });
+class DiscogsCard extends LitElement {
+  static get properties() {
+    return {
+      hass: {},
+      config: {}
+    };
   }
 
-  set hass(hass) {
-    if (!this.content) {
-      const card = document.createElement('ha-card');
-      card.style.width = '500px';
-      card.style.height = '500px';
+  static get styles() {
+    return css`
+      ha-card {
+        width: 500px;
+        height: 500px;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
 
-      this.content = document.createElement('div');
+      .record-text {
+        background: white;
+        z-index: 1;
+        padding: 1rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.2rem;
+      }
 
-      const style = document.createElement('style');
-      style.textContent = css;
+      .record-text div {
 
-      card.appendChild(this.content);
-      this.appendChild(card);
-    }
+      }
 
-    const entityId = this.config.entity;
-    const { state } = hass.states[entityId];
-    const attrs = this.getAttributes(hass, entityId);
-
-    this.content.innerHTML = `
-      <img src="${attrs.cover_image}" alt="${state}" height="500px" width="500px" />
-      <div class="record-title" style="position: relative; bottom: 50px; left: 0; right: 0; background: white; padding: 1rem;">
-        ${state}
-      </div>
-    `;
+      .record-format {
+        font-size: 0.9rem;
+        color: gray;
+      }
+    `
   }
 
-  getAttributes(hass, entityId) {
-    const attrs = hass.states[entityId].attributes;
-    console.log({
-      states: hass.states,
-      entity: hass.states[entityId],
-      attrs,
-    })
-    return attrs;
+
+  getAttributes(entity) {
+    const { attributes } = entity;
+    return attributes;
   }
 
   setConfig(config) {
@@ -57,7 +54,27 @@ class DiscogsCard extends HTMLElement {
     this.config = config;
   }
 
-  getCardSize() { return 3; }
+  getCardSize() {
+    return 3;
+  }
+
+  render() {
+    const entity = this.hass.states[this.config.entity];
+    const { cover_image, released, format } = this.getAttributes(entity);
+    const { state } = entity;
+
+    return html`
+      <ha-card style="background-image: url('${cover_image}')">
+        <div class="record-text">
+          <div>
+            <p>${state}<p>
+            <p class="record-format">${format}<p>
+          </div>
+          <date>${released}</date>
+        </div>
+      </ha-card>
+    `
+  }
 }
 
 customElements.define('discogs-card', DiscogsCard);
