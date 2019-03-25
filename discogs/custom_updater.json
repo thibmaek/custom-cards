@@ -1,0 +1,9 @@
+{
+  "discogs": {
+    "updated_at": "2019-03-25",
+    "version": "1.0.0",
+    "remote_location": "https://raw.githubusercontent.com/thibmaek/custom-cards/master/discogs/discogs-card.js",
+    "visit_repo": "https://github.com/thibmaek/custom-cards/tree/master/discogs",
+    "changelog": "https://github.com/thibmaek/custom-cards/tree/master/discogs/CHANGELOG.md"
+  }
+}
