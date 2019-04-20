@@ -1,4 +1,6 @@
-# Custom Components
+# Custom Cards
+
+[![](https://img.shields.io/badge/check-my%20roadmap-5362F5.svg)](https://www.notion.so/thibmaek/35f17ce6deae47918e4e970d05a9dc2c?v=61cc36c732c64a318ce51ed4369b74ab)
 
 Collection of custom cards to use with Home Assistant.
 
